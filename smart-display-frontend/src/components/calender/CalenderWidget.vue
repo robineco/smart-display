@@ -40,12 +40,12 @@ export default {
                 {
                     id: 2,
                     date: "12.11",
-                    name: "Arzt Termin"
+                    name: "Meeting Work"
                 },
                 {
                     id: 3,
                     date: "13.11",
-                    name: "Nach Hause fahren"
+                    name: "Meeting Uni"
                 }
             ]
         }
