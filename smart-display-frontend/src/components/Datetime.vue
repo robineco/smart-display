@@ -15,6 +15,8 @@ export default {
         }
     },
     created() {
+        this.getNow();
+        this.getDate();
         setInterval(this.getNow, 1000);
         setInterval(this.getDate, 1000);
     },

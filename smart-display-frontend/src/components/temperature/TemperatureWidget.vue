@@ -47,11 +47,16 @@
 
 <script>
 import { VueSvgGauge } from 'vue-svg-gauge'
+import axios from 'axios';
 
 export default {
     name: "Temperature",
     components: {
     VueSvgGauge,
+    },
+    created() {
+        this.fetchTemperatures();
+        setInterval(this.fetchTemperatures, 5 * 60 * 1000);
     },
     data() {
         return {
@@ -67,9 +72,40 @@ export default {
             inside: {
                 updated: "11:40",
                 temperature: 24.3
-            }
+            },
         }
-    }
+    },
+    methods: {
+        fetchTemperatures: function() {
+            const backendUrl = process.env.VUE_APP_BACKEND_URL;
+            const locationOutside = process.env.VUE_APP_LOCATION_OUTSIDE;
+            const locationInside = process.env.VUE_APP_LOCATION_INSIDE;
+            axios
+                .get(`http://${backendUrl}temperature/${locationOutside}/latest`)
+                .then((response) => {
+                    this.outside.temperature = response.data.Temp;
+                    this.outside.updated = this.convertTimestampToTime(response.data.Time);
+                })
+                .catch((response) => {
+                    console.log(response)
+                });
+            axios
+                .get(`http://${backendUrl}temperature/${locationInside}/latest`)
+                .then((response) => {
+                    this.inside.temperature = response.data.Temp;
+                    this.inside.updated = this.convertTimestampToTime(response.data.Time);
+                })
+                .catch((response) => {
+                    console.log(response)
+                });
+        },
+        convertTimestampToTime: function(timestamp) {
+            const date = new Date(timestamp);
+            let hour = date.getHours() >= 10 ? date.getHours() : `0${date.getHours()}`;
+            let minutes = date.getMinutes() >= 10 ? date.getMinutes() : `0${date.getMinutes()}`;
+            return hour + ":" + minutes;
+        }
+    },
 }
 </script>
 
