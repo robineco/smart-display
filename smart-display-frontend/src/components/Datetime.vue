@@ -21,12 +21,18 @@ export default {
     methods: {
         getNow: function() {
             const today = new Date();
+            let hours = today.getHours() >= 10 ? today.getHours() : `0${today.getHours()}`;
+            let minutes = today.getMinutes() >= 10 ? today.getMinutes() : `0${today.getMinutes()}`;
             let seconds = today.getSeconds() >= 10 ? today.getSeconds() : `0${today.getSeconds()}`;
-            const time = today.getHours() + ":" + today.getMinutes() + ":" + seconds;
+            const time = hours + ":" + minutes+ ":" + seconds;
             this.time = time;
         },
         getDate: function() {
             const today = new Date();
+
+            const week = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+            const day = week[today.getDay()];
+
             let month = "";
             switch (today.getMonth() + 1) {
                 case 1:
@@ -66,7 +72,8 @@ export default {
                     month = "Dezember"
                     break;
             }
-            this.date = today.getDate() + ' ' + month + ' ' + today.getFullYear();
+
+            this.date = day + " " + today.getDate() + " " + month + " " + today.getFullYear();
         }
     }
 }
