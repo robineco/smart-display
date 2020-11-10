@@ -1,14 +1,15 @@
 package handler
 
 import (
-	"Backend/src/model"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+	"smart-display/smart-display-backend/src/model"
 )
 
 func GetAllTemperatures(w http.ResponseWriter, r *http.Request) {
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
 
 	temperatures, err := store.GetTemperatures()
 	if err != nil {
@@ -24,6 +25,8 @@ func GetAllTemperatures(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddTemperature(w http.ResponseWriter, r *http.Request) {
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+
 	var t model.Temperature
 
 	err := json.NewDecoder(r.Body).Decode(&t)
@@ -35,10 +38,29 @@ func AddTemperature(w http.ResponseWriter, r *http.Request) {
 	err = store.AddTemperature(t)
 
 	fmt.Fprintf(w, "Temperature: %+v", t)
+}
 
+func GetLatestTemperatureByLocation(w http.ResponseWriter, r *http.Request) {
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+
+	vars := mux.Vars(r)
+	location := vars["location"]
+
+	t, err := store.GetLatestTemperatureByLocation(location)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	temperature, err := json.Marshal(t)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Fprint(w, string(temperature))
 }
 
 func GetTemperatures(w http.ResponseWriter, r *http.Request) {
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+
 	vars := mux.Vars(r)
 	location := vars["location"]
 
