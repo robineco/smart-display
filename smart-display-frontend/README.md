@@ -4,21 +4,9 @@
 ```
 npm install
 ```
-
-### Compiles and hot-reloads for development
+### Setup Environment Variables
 ```
-npm run serve
+VUE_APP_BACKEND_URL=<adress:port/>
+VUE_APP_LOCATION_OUTSIDE=<locationname>
+VUE_APP_LOCATION_INSIDE=<locationname>
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
