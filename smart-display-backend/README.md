@@ -3,7 +3,7 @@
 ## Project Setup
 You need a running mariadb with a table named "temperature"
 
-See => table-setup.sql
+table-setup.sql
 ```
 create table temperature.temperature
 (
