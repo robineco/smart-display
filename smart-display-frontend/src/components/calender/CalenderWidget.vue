@@ -16,13 +16,17 @@
             </div>
         </div>
     </div>
+    
 </template>
 
 <script>
+
 export default {
     name: "calender-widget",
     data() {
         return {
+            authorized: false,
+            items: undefined,
             placeholders: {
                 header: "Calender"
             },
@@ -49,7 +53,8 @@ export default {
                 }
             ]
         }
-    }
+    },
+    
 }
 </script>
 
