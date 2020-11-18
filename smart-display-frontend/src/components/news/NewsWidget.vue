@@ -75,7 +75,7 @@ export default {
         switchHeadline: function() {
            let nextHeadline = this.currentHeadline + 1;
 
-           if(nextHeadline >= 2) {
+           if(nextHeadline > 2) {
                nextHeadline = 0;
            }
            this.pages[nextHeadline].status = true
