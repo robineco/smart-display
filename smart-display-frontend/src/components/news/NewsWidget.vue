@@ -8,9 +8,10 @@
                 <p>{{ pages[currentHeadline].content }}</p>
             </div>
             <div id="icons">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+                <span v-for="page in pages" :key="page.id">
+                    <span v-if="page.isActive" class="dot active"></span>
+                    <span v-else class="dot"></span>
+                </span>
             </div>
         </div>
     </div>
@@ -33,14 +34,17 @@ export default {
             currentHeadline: 0,
             pages: [
                 {
+                    id: 0,
                     isActive: true,
                     content: ""
                 },
                 {
+                    id: 1,
                     isActive: false,
                     content: ""
                 },
                 {
+                    id: 2,
                     isActive: false,
                     content: ""
                 }
@@ -54,7 +58,7 @@ export default {
     },
     methods: {
         fetchNews: function() {
-           const url = "https://newsapi.org/v2/top-headlines?sources=spiegel-online&apiKey=" + this.apiKey
+           const url = "https://newsapi.org/v2/top-headlines?country=de&apiKey=" + this.apiKey
 
             axios
                 .get(url)
@@ -64,7 +68,7 @@ export default {
                     for (let i = 0; i < headlines.length; i++) {
                         let description = headlines[i].description;
                         description = description.split(".");
-                        this.pages[i].content = description[0];
+                        this.pages[i].content = description[0] + ".";
                     }
                     
                 })
@@ -78,8 +82,8 @@ export default {
            if(nextHeadline > 2) {
                nextHeadline = 0;
            }
-           this.pages[nextHeadline].status = true
-           this.pages[this.currentHeadline].status = false;
+           this.pages[nextHeadline].isActive = true
+           this.pages[this.currentHeadline].isActive = false;
            this.currentHeadline = nextHeadline;
         }
     },
@@ -109,7 +113,6 @@ export default {
 }
 #header-text {
     color: white;
-    font-size: 1rem;
     margin: 0;
 }
 #widget-content {
@@ -124,6 +127,9 @@ export default {
 }
 #widget-content p{
     margin-left: 0.5rem;
+}
+#icons {
+    margin-top: 0.3rem;
 }
 .dot {
     display: inline-block;
